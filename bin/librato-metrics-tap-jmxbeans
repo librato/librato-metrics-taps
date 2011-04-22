@@ -1,0 +1,104 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'yaml'
+
+require File.join(File.dirname(__FILE__), '../lib/librato/metrics/taps')
+
+include Librato::Metrics
+
+$conf = {
+  :jmx_host => "localhost",
+  :jmx_port => 8080,
+  :email => nil,
+  :token => nil,
+  :metrics_url => 'https://metrics-stg.heroku.com',
+  :beans => nil
+}
+
+optparse = OptionParser.new do |opts|
+  opts.banner = "Usage: librato-metrics-tap-jmxbeans [options]\n"
+
+  opts.on('-h', '--help', 'Display this screen') do
+    puts opts
+    exit
+  end
+
+  opts.on('--email <EMAIL>', 'Login email') do |email|
+    $conf[:email] = email
+  end
+
+  opts.on('--token <TOKEN>', 'API Token') do |token|
+    $conf[:token] = token
+  end
+
+  opts.on('--jmx-host <HOST>', "JMX Host (default: #{$conf[:jmx_host]})") do |host|
+    $conf[:jmx_host] = host
+  end
+
+  opts.on('--jmx-port <PORT>', "JMX Port (default: #{$conf[:jmx_port]})") do |port|
+    begin
+      $conf[:jmx_port] = Integer(port)
+    rescue
+      puts "Port must be an integer"
+      exit 1
+    end
+  end
+
+  opts.on('--url <URL>', "Metrics URL (default: #{$conf[:metrics_url]})") do |url|
+    if url =~ /^http/
+      $conf[:metrics_url] = url
+    else
+      $conf[:metrics_url] = "https://#{url}"
+    end
+  end
+
+  opts.on('--beans <FILE>', "YAML input file of JMX Beans") do |beans|
+    $conf[:beans] = beans
+  end
+end
+
+optparse.parse!
+
+unless $conf[:email] && $conf[:token]
+  puts "Must provide email and token!"
+  puts optparse
+  exit 1
+end
+
+unless $conf[:beans]
+  puts "Must provide beans YAML file"
+  puts optparse
+  exit 1
+end
+
+begin
+  beanf = File.open($conf[:beans], "r")
+rescue => err
+  puts "Failed to open bean file #{$conf[:beans]}: #{err.message}"
+  exit 1
+end
+
+begin
+  beans = YAML::load(beanf)
+rescue => err
+  puts "Failed to parse #{$conf[:beans]}: #{err.message}"
+  exit 1
+end
+
+beanf.close
+
+ret = Taps::JMX::connect!($conf[:jmx_host], $conf[:jmx_port])
+unless ret
+  puts "Failed to connect"
+  exit
+end
+
+metrics = Taps::JMX::retrieve(beans)
+
+puts "metrics: #{metrics.inspect}"
+
+
+# Local Variables:
+# mode: ruby
+# End:
