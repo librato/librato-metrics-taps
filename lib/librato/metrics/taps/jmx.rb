@@ -45,7 +45,8 @@ module Librato
               end
               attrs.each do |attr|
                 begin
-                  ret[bean][attr] = b.send(snake_case(attr.to_s))
+                  value = b.send(snake_case(attr.to_s))
+                  ret[bean][attr] = value if value
                 rescue
                   raise "Bean #{bean} has no such attribute: #{attr}"
                 end

@@ -12,6 +12,7 @@ $conf = {
   :jmx_port => 8080,
   :email => nil,
   :token => nil,
+  :source => nil,
   :metrics_url => 'https://metrics-stg.heroku.com',
   :beans => nil
 }
@@ -46,11 +47,11 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.on('--url <URL>', "Metrics URL (default: #{$conf[:metrics_url]})") do |url|
-    if url =~ /^http/
-      $conf[:metrics_url] = url
-    else
-      $conf[:metrics_url] = "https://#{url}"
-    end
+    $conf[:metrics_url] = url
+  end
+
+  opts.on('--source <SOURCE>', "Source for metrics") do |source|
+    $conf[:source] = source
   end
 
   opts.on('--beans <FILE>', "YAML input file of JMX Beans") do |beans|
@@ -96,8 +97,22 @@ end
 
 metrics = Taps::JMX::retrieve(beans)
 
-puts "metrics: #{metrics.inspect}"
+counters = {}
+gauges = {}
+metrics.each_pair do |beanname, attrs|
+  attrs.each_pair do |attr, value|
+    name = beanname.gsub(":type=", "::")
+    gauges["#{name}::#{attr}"] = value
+  end
+end
 
+Taps::Publisher.url = $conf[:metrics_url]
+Taps::Publisher.user = $conf[:email]
+Taps::Publisher.passwd = $conf[:token]
+Taps::Publisher.source = $conf[:source] if $conf[:source]
+
+r = Taps::Publisher.post(counters, gauges)
+exit 1 unless r
 
 # Local Variables:
 # mode: ruby

@@ -6,6 +6,7 @@ $LOAD_PATH.unshift __LIB_DIR__ unless
 
 require 'rubygems'
 require 'jmx4r'
+require 'rest_client'
 
 module Librato
   module Metrics
@@ -15,3 +16,4 @@ module Librato
 end
 
 require 'librato/metrics/taps/jmx.rb'
+require 'librato/metrics/taps/publisher.rb'
