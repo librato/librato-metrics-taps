@@ -7,10 +7,15 @@ $LOAD_PATH.unshift __LIB_DIR__ unless
 require 'rubygems'
 require 'jmx4r'
 require 'rest_client'
+require 'trollop'
 
 module Librato
   module Metrics
     module Taps
+
+      def self.version
+        File.read(File.join(File.dirname(__FILE__), '../../../VERSION')).chomp
+      end
     end
   end
 end

@@ -13,6 +13,7 @@ GEM
     rest-client (1.6.1)
       mime-types (>= 1.16)
     shoulda (2.11.3)
+    trollop (1.16.2)
 
 PLATFORMS
   java
@@ -24,3 +25,4 @@ DEPENDENCIES
   rcov
   rest-client (= 1.6.1)
   shoulda
+  trollop (= 1.16.2)
