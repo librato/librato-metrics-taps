@@ -81,8 +81,7 @@ module Librato
                 next unless value
 
                 # Check how we are interpretting this value
-                if attrs.respond_to?(:keys) &&
-                    "#{attrs[attr.first]}".downcase == 'counter'
+                if attrs.respond_to?(:keys) && "#{attr.last}".downcase == 'counter'
                   counters[metric_name(bean, attrname)] = value
                 else
                   # Skip NaN
