@@ -15,8 +15,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "librato-metrics-taps"
   gem.homepage = "http://github.com/librato/librato-metrics-taps"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Librato Metrics Taps}
+  gem.description = %Q{Taps for extracting metrics data and publishing to Librato Metrics}
   gem.email = "silverline@librato.com"
   gem.authors = ["Librato, Inc."]
 
