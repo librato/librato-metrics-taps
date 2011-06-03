@@ -57,16 +57,7 @@ unless ret
   exit
 end
 
-metrics = Taps::JMX::retrieve(beans)
-
-counters = {}
-gauges = {}
-metrics.each_pair do |beanname, attrs|
-  attrs.each_pair do |attr, value|
-    name = beanname.gsub(":type=", "::")
-    gauges["#{name}::#{attr}"] = value
-  end
-end
+(counters, gauges) = Taps::JMX::retrieve(beans)
 
 Taps::Publisher.url = opts[:metrics_url]
 Taps::Publisher.user = opts[:email]

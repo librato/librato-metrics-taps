@@ -27,10 +27,21 @@ module Librato
           #      bean name. To retrieve all attributes, simply set
           #      to true instead of a list.
           #
+          #    beans = {'bean1' => {'attr' => 'gauge',
+          #                         'attr2' => 'counter'}}
+          #      Will retrieve the specified beans and their
+          #      attributes like the example above, but with the
+          #      ability to specify how each attribute is returned. By
+          #      default, all attributes are returned as
+          #      gauges. However, if you set the attribute name to
+          #      'counter', it will return the attribute as a counter.
+          #
+          #
           def retrieve(bean_names)
             raise "Not connected" unless @connected || connect!
 
-            ret = Hash.new{|hash, key| hash[key] = {}}
+            gauges = {}
+            counters = {}
             (bean_names.keys rescue bean_names).each do |bean|
               begin
                 b = ::JMX::MBean.find_by_name(bean.to_s)
@@ -38,22 +49,36 @@ module Librato
                 raise "No such bean: #{bean}"
               end
 
-              if bean_names.respond_to?(:keys) && bean_names[bean].class == Array
+              if bean_names.respond_to?(:keys) &&
+                  ( bean_names[bean].class == Array ||
+                    bean_names[bean].class == Hash)
                 attrs = bean_names[bean]
               else
                 attrs = b.attributes.keys
               end
+
               attrs.each do |attr|
+                attrname = attr.first
                 begin
-                  value = b.send(snake_case(attr.to_s))
-                  ret[bean][attr] = value if value
+                  value = b.send(snake_case(attrname.to_s))
                 rescue
-                  raise "Bean #{bean} has no such attribute: #{attr}"
+                  raise "Bean #{bean} has no such attribute: #{attrname}"
+                end
+
+                # Skip attributes without a value
+                next unless value
+
+                # Check how we are interpretting this value
+                if attrs.respond_to?(:keys) &&
+                    "#{attrs[attr.first]}".downcase == 'counter'
+                  counters[metric_name(bean, attrname)] = value
+                else
+                  gauges[metric_name(bean, attrname)] = value
                 end
               end
             end
 
-            ret
+            [counters, gauges]
           end
 
           # From ActiveSupport
@@ -63,6 +88,10 @@ module Librato
               gsub(/([a-z\d])([A-Z])/,'\1_\2').
               tr("-", "_").
               downcase
+          end
+
+          def metric_name(bean_name, attr_name)
+            "#{bean_name.gsub(":type=", "::")}::#{attr_name}"
           end
         end
       end
