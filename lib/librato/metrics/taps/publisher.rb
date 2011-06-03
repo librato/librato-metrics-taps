@@ -6,16 +6,9 @@ module Librato
           SOURCE_NAME_REGEX = /^[-A-Za-z0-9_.]{1,255}$/
           DEFAULT_URL = 'https://metrics-stg.heroku.com'
 
-          @source = nil
           @url = nil
           @user = nil
           @passwd = nil
-
-          def source=(new_source)
-            raise "Invalid source" unless new_source =~ SOURCE_NAME_REGEX
-
-            source = new_source
-          end
 
           def url=(new_url)
             if new_url =~ /^http/
@@ -55,11 +48,10 @@ module Librato
           #    {:my-gauge-2 => {:value => 5, :count => 4,
           #                     :min => 3, :max => 6, ...}}
           #    or mix-match.
-          def post(counters, gauges, measure_time = nil)
-            params = {
-              :measure_time => measure_time || Time.now.tv_sec
-            }
-            params[:source] = @source if @source
+          def post(counters, gauges, params = {})
+            unless !params[:source] || params[:source] =~ SOURCE_NAME_REGEX
+              raise "Invalid source"
+            end
 
             if counters.length > 0
               params[:counters] = {}

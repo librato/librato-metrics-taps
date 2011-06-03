@@ -21,6 +21,7 @@ EOS
   opt :email, "Metrics Email address", :type => :string
   opt :token, "Metrics API token", :type => :string
   opt :source, "Optional source name", :type => :string
+  opt :measure_time, "Optional time for measurements", :type => :int
   opt :metrics_url, "Metrics URL", :default => 'https://metrics-stg.heroku.com'
   opt :beans_file, "YAML Beans mapping", :type => :string
 end
@@ -62,9 +63,11 @@ end
 Taps::Publisher.url = opts[:metrics_url]
 Taps::Publisher.user = opts[:email]
 Taps::Publisher.passwd = opts[:token]
-Taps::Publisher.source = opts[:source] if opts[:source]
 
-r = Taps::Publisher.post(counters, gauges)
+params = {}
+params[:source] = opts[:source] if opts[:source]
+params[:measure_time] = opts[:measure_time] if opts[:measure_time]
+r = Taps::Publisher.post(counters, gauges, params)
 exit 1 unless r
 
 # Local Variables:
