@@ -6,6 +6,7 @@ source "http://rubygems.org"
 gem 'jmx4r', '0.1.3'
 gem 'rest-client', '1.6.1'
 gem 'trollop', '1.16.2'
+gem 'json', '1.5.1'
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.

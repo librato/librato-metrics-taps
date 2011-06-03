@@ -3,8 +3,12 @@
 require 'yaml'
 
 require File.join(File.dirname(__FILE__), '../lib/librato/metrics/taps')
-
 include Librato::Metrics
+
+def err(msg)
+  $stderr.puts msg
+  exit 1
+end
 
 opts = Trollop::options do
   version "Version: #{Taps::version}"
@@ -16,46 +20,106 @@ Usage: librato-metrics-tap-jmxbeans <options>
 
 Options:
 EOS
+  # JMX End point
   opt :jmx_host, "JMX Hostname", :default => "localhost"
   opt :jmx_port, "JMX Port", :default => 8080
+
   opt :email, "Metrics Email address", :type => :string
   opt :token, "Metrics API token", :type => :string
   opt :source, "Optional source name", :type => :string
   opt :measure_time, "Optional time for measurements", :type => :int
   opt :metrics_url, "Metrics URL", :default => 'https://metrics-stg.heroku.com'
-  opt :beans_file, "YAML Beans mapping", :type => :string
+
+  # Bean collection options
+  opt :data_file_full, "YAML file defining beans & attribute names", :type => :string
+  opt :data_file_attributes, "YAML file of bean attributes", :type => :string
+  opt :bean_name, "Bean name to match against or lookup", :type => :string
+
+  # Commands
+  opt :publish, "Publish Bean Attributes to Librato Metrics"
+  opt :match_beans, "Output beans that match --bean-name regexp"
 end
 
-unless opts[:email] && opts[:token]
-  puts "Must provide email and token!"
-  exit 1
+if opts[:publish] && opts[:match_beans]
+  err "Only specify one command"
 end
 
-unless opts[:beans_file]
-  puts "Must provide beans YAML file"
-  exit 1
+unless opts[:publish] || opts[:match_beans]
+  err "Must specify a command"
 end
 
-begin
-  beanf = File.open(opts[:beans_file], "r")
-rescue => err
-  puts "Failed to open bean file #{opts[:beans_file]}: #{err.message}"
-  exit 1
-end
+if opts[:publish]
+  unless opts[:email]
+    err "Must provide email to publish"
+  end
 
-begin
-  beans = YAML::load(beanf)
-rescue => err
-  puts "Failed to parse #{opts[:beans_file]}: #{err.message}"
-  exit 1
+  unless opts[:token]
+    err "Must provide token to publish"
+  end
 end
-
-beanf.close
 
 ret = Taps::JMX::connect!(opts[:jmx_host], opts[:jmx_port])
 unless ret
-  puts "Failed to connect"
-  exit
+  err "Failed to connect to JMX endpoint"
+end
+
+if opts[:match_beans]
+  unless opts[:bean_name]
+    err "Must specify --bean-name when matching bean names"
+  end
+
+  beans = Taps::JMX::match_beans(opts[:bean_name])
+  unless beans && beans.length > 0
+    err "No beans match: #{opts[:bean_name]}"
+  end
+  puts beans.join("\n")
+  exit 0
+end
+
+#
+# Publishing. Read beans + attributes then push to Metrics
+#
+
+# Load full definition
+#
+if opts[:data_file_full]
+  filename = opts[:data_file_full]
+  begin
+    beanf = File.open(filename, "r")
+  rescue => err
+    puts "Failed to open bean file #{filename}: #{err.message}"
+    exit 1
+  end
+
+  begin
+    beans = YAML::load(beanf)
+  rescue => err
+    puts "Failed to parse #{filename}: #{err.message}"
+    exit 1
+  end
+  beanf.close
+elsif opts[:bean_name] && opts[:data_file_attributes]
+  # Load attributes from file
+  #
+  filename = opts[:data_file_attributes]
+  begin
+    beanf = File.open(filename, "r")
+  rescue => err
+    puts "Failed to open attributes file #{filename}: #{err.message}"
+    exit 1
+  end
+
+  begin
+    attrs = YAML::load(beanf)
+  rescue => err
+    puts "Failed to parse #{filename}: #{err.message}"
+    exit 1
+  end
+  beanf.close
+
+  beans = { opts[:bean_name] => attrs }
+else
+  err "Must specify --data-file-full or --data-file-attributes"
 end
 
 (counters, gauges) = Taps::JMX::retrieve(beans)

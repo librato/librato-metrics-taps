@@ -8,6 +8,7 @@ require 'rubygems'
 require 'jmx4r'
 require 'rest_client'
 require 'trollop'
+require 'json'
 
 module Librato
   module Metrics

@@ -12,6 +12,18 @@ module Librato
             @connected = true
           end
 
+          def match_beans(beans)
+            raise "Not connected" unless @connected || connect!
+
+            begin
+              b = ::JMX::MBean.find_all_by_name(beans.to_s)
+            rescue => err
+              return nil
+            end
+
+            b.collect { |bean| bean.object_name.to_s }
+          end
+
           #
           # Retrieves a list of JMX attributes converted to
           # gauges and counters.
@@ -73,6 +85,9 @@ module Librato
                     "#{attrs[attr.first]}".downcase == 'counter'
                   counters[metric_name(bean, attrname)] = value
                 else
+                  # Skip NaN
+                  next if Float(value).nan?
+
                   gauges[metric_name(bean, attrname)] = value
                 end
               end
@@ -91,7 +106,7 @@ module Librato
           end
 
           def metric_name(bean_name, attr_name)
-            "#{bean_name.gsub(":type=", "::")}::#{attr_name}"
+            "#{bean_name.gsub('=', ':').gsub(',', '_')}::#{attr_name}"
           end
         end
       end

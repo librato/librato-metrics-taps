@@ -1,0 +1,18 @@
+# Set of attributes to grab for each CF.
+# TODO: Add comment description for each
+#
+---
+LiveDiskSpaceUsed:
+LiveSSTableCount:
+MaxRowSize:
+MeanRowSize:
+MinRowSize:
+MemtableSwitchCount: counter
+PendingTasks:
+ReadCount: counter
+RecentReadLatencyMicros:
+RecentWriteLatencyMicros:
+TotalDiskSpaceUsed:
+TotalReadLatencyMicros:
+TotalWriteLatencyMicros:
+WriteCount: counter
