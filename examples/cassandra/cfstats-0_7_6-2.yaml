@@ -13,6 +13,6 @@ ReadCount: counter
 RecentReadLatencyMicros:
 RecentWriteLatencyMicros:
 TotalDiskSpaceUsed:
-TotalReadLatencyMicros:
-TotalWriteLatencyMicros:
+TotalReadLatencyMicros: counter
+TotalWriteLatencyMicros: counter
 WriteCount: counter
