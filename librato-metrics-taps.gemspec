@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{librato-metrics-taps}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Librato, Inc."]
@@ -56,7 +56,6 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<jmx4r>, ["= 0.1.3"])
       s.add_runtime_dependency(%q<rest-client>, ["= 1.6.1"])
       s.add_runtime_dependency(%q<trollop>, ["= 1.16.2"])
-      s.add_runtime_dependency(%q<json>, ["= 1.5.1"])
       s.add_runtime_dependency(%q<jruby-openssl>, ["= 0.7.4"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -68,7 +67,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<jmx4r>, ["= 0.1.3"])
       s.add_dependency(%q<rest-client>, ["= 1.6.1"])
       s.add_dependency(%q<trollop>, ["= 1.16.2"])
-      s.add_dependency(%q<json>, ["= 1.5.1"])
       s.add_dependency(%q<jruby-openssl>, ["= 0.7.4"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -81,7 +79,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<jmx4r>, ["= 0.1.3"])
     s.add_dependency(%q<rest-client>, ["= 1.6.1"])
     s.add_dependency(%q<trollop>, ["= 1.16.2"])
-    s.add_dependency(%q<json>, ["= 1.5.1"])
     s.add_dependency(%q<jruby-openssl>, ["= 0.7.4"])
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
