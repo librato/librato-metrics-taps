@@ -10,6 +10,14 @@ def err(msg)
   exit 1
 end
 
+def get_beans(bean_name)
+  beans = Taps::JMX::match_beans(bean_name)
+  unless beans && beans.length > 0
+    err "No beans match: #{bean_name}"
+  end
+  beans
+end
+
 opts = Trollop::options do
   version "Version: #{Taps::version}"
   banner <<EOS
@@ -68,10 +76,7 @@ if opts[:match_beans]
     err "Must specify --bean-name when matching bean names"
   end
 
-  beans = Taps::JMX::match_beans(opts[:bean_name])
-  unless beans && beans.length > 0
-    err "No beans match: #{opts[:bean_name]}"
-  end
+  beans = get_beans(opts[:bean_name])
   puts beans.join("\n")
   exit 0
 end
@@ -117,7 +122,11 @@ elsif opts[:bean_name] && opts[:data_file_attributes]
   end
   beanf.close
 
-  beans = { opts[:bean_name] => attrs }
+  beans = {}
+  beannames = get_beans(opts[:bean_name])
+  beannames.each do |name|
+    beans[name] = attrs
+  end
 else
   err "Must specify --data-file-full or --data-file-attributes"
 end
@@ -131,8 +140,8 @@ Taps::Publisher.passwd = opts[:token]
 params = {}
 params[:source] = opts[:source] if opts[:source]
 params[:measure_time] = opts[:measure_time] if opts[:measure_time]
-r = Taps::Publisher.post(counters, gauges, params)
-exit 1 unless r
+#r = Taps::Publisher.post(counters, gauges, params)
+#exit 1 unless r
 
 # Local Variables:
 # mode: ruby
