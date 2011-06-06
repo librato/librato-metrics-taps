@@ -140,8 +140,8 @@ Taps::Publisher.passwd = opts[:token]
 params = {}
 params[:source] = opts[:source] if opts[:source]
 params[:measure_time] = opts[:measure_time] if opts[:measure_time]
-#r = Taps::Publisher.post(counters, gauges, params)
-#exit 1 unless r
+r = Taps::Publisher.post(counters, gauges, params)
+exit 1 unless r
 
 # Local Variables:
 # mode: ruby
