@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{librato-metrics-taps}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Librato, Inc."]
-  s.date = %q{2011-06-06}
+  s.date = %q{2011-07-22}
   s.default_executable = %q{librato-metrics-tap-jmxbeans}
   s.description = %q{Taps for extracting metrics data and publishing to Librato Metrics}
   s.email = %q{silverline@librato.com}
@@ -28,7 +28,9 @@ Gem::Specification.new do |s|
     "VERSION",
     "bin/librato-metrics-tap-jmxbeans",
     "examples/cassandra/cfstats-0_7_6-2.yaml",
+    "examples/cassandra/cfstats-0_8_1.yaml",
     "examples/cassandra/tpstats-0_7_6-2.yaml",
+    "examples/cassandra/tpstats-0_8_1.yaml",
     "lib/librato-metrics-taps.rb",
     "lib/librato/metrics/taps.rb",
     "lib/librato/metrics/taps/jmx.rb",
