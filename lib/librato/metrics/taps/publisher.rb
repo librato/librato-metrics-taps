@@ -74,6 +74,7 @@ module Librato
               r = RestClient.post build_url('/v1/metrics.json'), params
             rescue => err
               puts "Failed to publish stats: #{err.message}"
+              puts "Response: #{err.response}"
               return false
             end
             true
