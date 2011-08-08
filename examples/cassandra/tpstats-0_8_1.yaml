@@ -49,4 +49,14 @@ org.apache.cassandra.db:type=CompactionManager:
   CompletedTasks: counter
   PendingTasks:
 org.apache.cassandra.db:type=StorageService: 
-  - Load
+  Load:
+org.apache.cassandra.db:type=StorageProxy:
+  RecentRangeLatencyMicros:
+  RecentReadLatencyMicros:
+  RecentWriteLatencyMicros:
+  TotalRangeLatencyMicros: counter
+  TotalReadLatencyMicros: counter
+  TotalWriteLatencyMicros: counter
+  RangeOperations:
+  ReadOperations:
+  WriteOperations:
