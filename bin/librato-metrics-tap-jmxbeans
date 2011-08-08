@@ -36,7 +36,7 @@ EOS
   opt :token, "Metrics API token", :type => :string
   opt :source, "Optional source name", :type => :string
   opt :measure_time, "Optional time for measurements", :type => :int
-  opt :metrics_url, "Metrics URL", :default => 'https://metrics-stg.heroku.com'
+  opt :metrics_url, "Metrics URL", :default => 'https://metrics-api.librato.com'
 
   # Bean collection options
   opt :data_file_full, "YAML file defining beans & attribute names", :type => :string
