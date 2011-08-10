@@ -48,6 +48,8 @@ org.apache.cassandra.db:type=Commitlog:
 org.apache.cassandra.db:type=CompactionManager: 
   CompletedTasks: counter
   PendingTasks:
+  BytesCompacted:
+  BytesTotalInProgress:
 org.apache.cassandra.db:type=StorageService: 
   Load:
 org.apache.cassandra.db:type=StorageProxy:
