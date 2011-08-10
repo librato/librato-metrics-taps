@@ -18,6 +18,34 @@ def get_beans(bean_name)
   beans
 end
 
+def match_beans(opts)
+  ret = Taps::JMX::connect!(opts[:jmx_host], opts[:jmx_port])
+  unless ret
+    err "Failed to connect to JMX endpoint"
+  end
+
+  unless opts[:bean_name]
+    err "Must specify --bean-name when matching bean names"
+  end
+
+  beans = get_beans(opts[:bean_name])
+  puts beans.join("\n")
+end
+
+def publish_beans(beans, opts)
+  (counters, gauges) = Taps::JMX::retrieve(beans)
+
+  Taps::Publisher.url = opts[:metrics_url]
+  Taps::Publisher.user = opts[:email]
+  Taps::Publisher.passwd = opts[:token]
+
+  params = {}
+  params[:source] = opts[:source] if opts[:source]
+  params[:measure_time] = opts[:measure_time] if opts[:measure_time]
+  r = Taps::Publisher.post(counters, gauges, params)
+  return r
+end
+
 opts = Trollop::options do
   version "Version: #{Taps::version}"
   banner <<EOS
@@ -37,6 +65,8 @@ EOS
   opt :source, "Optional source name", :type => :string
   opt :measure_time, "Optional time for measurements", :type => :int
   opt :metrics_url, "Metrics URL", :default => 'https://metrics-api.librato.com'
+
+  opt :interval, "Run as a daemon and poll every N seconds", :type => :int
 
   # Bean collection options
   opt :data_file_full, "YAML file defining beans & attribute names", :type => :string
@@ -66,24 +96,19 @@ if opts[:publish]
   end
 end
 
-ret = Taps::JMX::connect!(opts[:jmx_host], opts[:jmx_port])
-unless ret
-  err "Failed to connect to JMX endpoint"
-end
-
 if opts[:match_beans]
-  unless opts[:bean_name]
-    err "Must specify --bean-name when matching bean names"
-  end
-
-  beans = get_beans(opts[:bean_name])
-  puts beans.join("\n")
+  match_beans(opts)
   exit 0
 end
 
 #
 # Publishing. Read beans + attributes then push to Metrics
 #
+
+ret = Taps::JMX::connect!(opts[:jmx_host], opts[:jmx_port])
+unless ret
+  err "Failed to connect to JMX endpoint"
+end
 
 # Load full definition
 #
@@ -131,17 +156,25 @@ else
   err "Must specify --data-file-full or --data-file-attributes"
 end
 
-(counters, gauges) = Taps::JMX::retrieve(beans)
+unless opts[:interval]
+  r = publish_beans(beans, opts)
+  exit(r ? 0 : 1)
+end
 
-Taps::Publisher.url = opts[:metrics_url]
-Taps::Publisher.user = opts[:email]
-Taps::Publisher.passwd = opts[:token]
+# If --interval has been specified, broadcast every interval
+# seconds. We wait for interval seconds each time to ensure we
+# broadcast on the interval
+begin
+  t = Time.now.tv_sec
+  t2 = ((t + opts[:interval] + 1) / opts[:interval]) * opts[:interval]
 
-params = {}
-params[:source] = opts[:source] if opts[:source]
-params[:measure_time] = opts[:measure_time] if opts[:measure_time]
-r = Taps::Publisher.post(counters, gauges, params)
-exit 1 unless r
+  sleep (t2 - t)
+  t = Time.now
+  tsecs = (Time.now.tv_sec / opts[:interval]) * opts[:interval]
+  r = publish_beans(beans, opts.merge(:measure_time => tsecs))
+end while r
+
+exit 1
 
 # Local Variables:
 # mode: ruby
