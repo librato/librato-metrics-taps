@@ -33,7 +33,7 @@ def match_beans(opts)
 end
 
 def publish_beans(beans, opts)
-  (counters, gauges) = Taps::JMX::retrieve(beans)
+  (counters, gauges) = Taps::JMX::retrieve(beans, opts[:ignore_missing])
 
   Taps::Publisher.url = opts[:metrics_url]
   Taps::Publisher.user = opts[:email]
@@ -67,6 +67,8 @@ EOS
   opt :metrics_url, "Metrics URL", :default => 'https://metrics-api.librato.com'
 
   opt :interval, "Run as a daemon and poll every N seconds", :type => :int
+
+  opt :ignore_missing, "Ignore missing beans/attributes"
 
   # Bean collection options
   opt :data_file_full, "YAML file defining beans & attribute names", :type => :string

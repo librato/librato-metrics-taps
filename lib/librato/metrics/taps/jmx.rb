@@ -49,7 +49,7 @@ module Librato
           #      'counter', it will return the attribute as a counter.
           #
           #
-          def retrieve(bean_names)
+          def retrieve(bean_names, ignore_missing = false)
             raise "Not connected" unless @connected || connect!
 
             gauges = {}
@@ -74,7 +74,11 @@ module Librato
                 begin
                   value = b.send(snake_case(attrname.to_s))
                 rescue
-                  raise "Bean #{bean} has no such attribute: #{attrname}"
+                  if ignore_missing
+                    value = nil
+                  else
+                    raise "Bean #{bean} has no such attribute: #{attrname}"
+                  end
                 end
 
                 # Skip attributes without a value
