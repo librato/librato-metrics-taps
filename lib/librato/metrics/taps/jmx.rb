@@ -58,7 +58,11 @@ module Librato
               begin
                 b = ::JMX::MBean.find_by_name(bean.to_s)
               rescue
-                raise "No such bean: #{bean}"
+                if ignore_missing
+                  next
+                else
+                  raise "No such bean: #{bean}"
+                end
               end
 
               if bean_names.respond_to?(:keys) &&

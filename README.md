@@ -23,6 +23,8 @@ Options:
           --measure-time, -a <i>:   Optional time for measurements
            --metrics-url, -r <s>:   Metrics URL (default:
                                     https://metrics-api.librato.com)
+              --interval, -i <i>:   Run as a daemon and poll every N seconds
+            --ignore-missing, -g:   Ignore missing beans/attributes
         --data-file-full, -d <s>:   YAML file defining beans & attribute names
   --data-file-attributes, -f <s>:   YAML file of bean attributes
              --bean-name, -b <s>:   Bean name to match against or lookup
