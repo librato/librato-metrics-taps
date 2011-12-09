@@ -90,7 +90,7 @@ module Librato
 
                 # Check how we are interpretting this value
                 if attrs.respond_to?(:keys) && "#{attr.last}".downcase == 'counter'
-                  counters[metric_name(bean, attrname)] = value
+                  counters[metric_name(bean, attrname)] = value.to_i
                 else
                   # Skip NaN
                   next if Float(value).nan?
