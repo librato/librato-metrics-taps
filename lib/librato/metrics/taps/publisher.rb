@@ -53,15 +53,21 @@ module Librato
               raise "Invalid source"
             end
 
+            unless !params[:prefix] || params[:prefix] =~ SOURCE_NAME_REGEX
+              raise "Invalid prefix"
+            end
+
             if counters.length > 0
               params[:counters] = {}
               counters.each_pair do |k, v|
+                k = params[:prefix] + "." + k
                 params[:counters][k] = {:value => v}
               end
             end
             if gauges.length > 0
               params[:gauges] = {}
               gauges.each_pair do |k, v|
+                k = params[:prefix] + "." + k
                 if v.respond_to?(:keys)
                   params[:gauges][k] = v
                 else
