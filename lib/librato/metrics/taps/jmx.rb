@@ -88,14 +88,30 @@ module Librato
                 # Skip attributes without a value
                 next unless value
 
-                # Check how we are interpretting this value
-                if attrs.respond_to?(:keys) && "#{attr.last}".downcase == 'counter'
-                  counters[metric_name(bean, attrname)] = value.to_i
+                # Take a look at the type and only handle types that we know how to handle
+                if value.kind_of? Java::JavaxManagementOpenmbean::CompositeDataSupport
+                  # If this is a composit data type loop through the elements assuming they are numbers
+                  value.each do |value_subkey, value_subvalue|
+                    if value_subvalue.kind_of? Numeric
+                      if attrs.respond_to?(:keys) && "#{attr.last}".downcase == 'counter'
+                        counters[metric_name(bean, attrname + "." + value_subkey)] = value_subvalue.to_i
+                      else
+                        gauges[metric_name(bean, attrname + "." + value_subkey)] = value_subvalue
+                      end
+                    else
+                      raise "The subvalue \"#{value_subkey}\" of value \"#{value}\" in Bean \"#{bean}\" is of type \"#{value_subvalue.class}\" and I only know how to handle numbers.\n"
+                    end
+                  end
+                elsif value.kind_of? Numeric
+                  # If this is a number go ahead and submit it as either a counter or gauge
+                  # depending on what we set in the attributes
+                  if attrs.respond_to?(:keys) && "#{attr.last}".downcase == 'counter'
+                    counters[metric_name(bean, attrname)] = value.to_i
+                  else
+                    gauges[metric_name(bean, attrname)] = value
+                  end
                 else
-                  # Skip NaN
-                  next if Float(value).nan?
-
-                  gauges[metric_name(bean, attrname)] = value
+                  raise "The value \"#{value}\" of Bean \"#{bean}\" is of type \"#{value.class}\" and I do not know how to handle that type.\n"
                 end
               end
             end
