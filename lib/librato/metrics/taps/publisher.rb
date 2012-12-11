@@ -57,17 +57,22 @@ module Librato
               raise "Invalid prefix"
             end
 
+            pfx = ""
+            if params[:prefix]
+              pfx = params.delete(:prefix) + "."
+            end
+
             if counters.length > 0
               params[:counters] = {}
               counters.each_pair do |k, v|
-                k = params[:prefix] + "." + k
+                k = pfx + k
                 params[:counters][k] = {:value => v}
               end
             end
             if gauges.length > 0
               params[:gauges] = {}
               gauges.each_pair do |k, v|
-                k = params[:prefix] + "." + k
+                k = pfx + k
                 if v.respond_to?(:keys)
                   params[:gauges][k] = v
                 else
