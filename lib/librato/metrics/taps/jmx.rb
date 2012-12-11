@@ -103,6 +103,9 @@ module Librato
                     end
                   end
                 elsif value.kind_of? Numeric
+                  # Skip bogus values
+                  next if value.nan? || value.infinite?
+
                   # If this is a number go ahead and submit it as either a counter or gauge
                   # depending on what we set in the attributes
                   if attrs.respond_to?(:keys) && "#{attr.last}".downcase == 'counter'
