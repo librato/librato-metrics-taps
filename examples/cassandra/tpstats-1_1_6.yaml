@@ -1,0 +1,78 @@
+# Set of non-CF specific Cassandra JMX knobs
+#
+--- 
+org.apache.cassandra.internal:type=AntiEntropyStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.internal:type=FlushWriter: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.internal:type=GossipStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.internal:type=HintedHandoff: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.internal:type=InternalResponseStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.internal:type=MemtablePostFlusher: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.internal:type=MigrationStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.internal:type=MiscStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.internal:type=StreamStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.db:type=Commitlog: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.db:type=CompactionManager: 
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.db:type=StorageService: 
+  Load:
+org.apache.cassandra.db:type=StorageProxy:
+  RecentRangeLatencyMicros:
+  RecentReadLatencyMicros:
+  RecentWriteLatencyMicros:
+  TotalRangeLatencyMicros: counter
+  TotalReadLatencyMicros: counter
+  TotalWriteLatencyMicros: counter
+  RangeOperations: counter
+  ReadOperations: counter
+  WriteOperations: counter
+org.apache.cassandra.request:type=MutationStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.request:type=ReadRepairStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.request:type=ReadStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.request:type=ReplicateOnWriteStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.request:type=RequestResponseStage: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
