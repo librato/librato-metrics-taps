@@ -44,6 +44,9 @@ def publish_beans(beans, opts)
   params[:prefix] = opts[:prefix] if opts[:prefix]
   params[:measure_time] = opts[:measure_time] if opts[:measure_time]
   r = Taps::Publisher.post(counters, gauges, params)
+  unless r
+    $stderr.puts "ERROR: Failed to publish metrics!"
+  end
   return r
 end
 
@@ -175,8 +178,8 @@ begin
   sleep (t2 - t)
   t = Time.now
   tsecs = (Time.now.tv_sec / opts[:interval]) * opts[:interval]
-  r = publish_beans(beans, opts.merge(:measure_time => tsecs))
-end while r
+  publish_beans(beans, opts.merge(:measure_time => tsecs))
+end while true
 
 exit 1
 
