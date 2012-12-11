@@ -104,7 +104,7 @@ module Librato
                   end
                 elsif value.kind_of? Numeric
                   # Skip bogus values
-                  next if value.nan? || value.infinite?
+                  next if value.to_f.nan? || value.to_f.infinite?
 
                   # If this is a number go ahead and submit it as either a counter or gauge
                   # depending on what we set in the attributes
