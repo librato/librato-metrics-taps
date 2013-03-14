@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<jmx4r>, ["= 0.1.4"])
   s.add_runtime_dependency(%q<rest-client>, ["= 1.6.7"])
   s.add_runtime_dependency(%q<trollop>, ["= 1.16.2"])
-  s.add_runtime_dependency(%q<jruby-openssl>, ["= 0.7.4"])
+  s.add_runtime_dependency(%q<jruby-openssl>, ["= 0.8.5"])
 
   s.add_development_dependency(%q<rake>, [">= 0"])
   s.add_development_dependency(%q<shoulda>, [">= 0"])
