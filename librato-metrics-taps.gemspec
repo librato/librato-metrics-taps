@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/librato/librato-metrics-taps}
   s.licenses = [%q{MIT}]
 
-  s.add_runtime_dependency(%q<jmx4r>, ["= 0.1.3"])
+  s.add_runtime_dependency(%q<jmx4r>, ["= 0.1.4"])
   s.add_runtime_dependency(%q<rest-client>, ["= 1.6.1"])
   s.add_runtime_dependency(%q<trollop>, ["= 1.16.2"])
   s.add_runtime_dependency(%q<jruby-openssl>, ["= 0.7.4"])
