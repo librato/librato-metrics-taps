@@ -3,9 +3,9 @@ module Librato
     module Taps
       module JMX
         class << self
-          def connect!(host = 'localhost', port = 3000)
+          def connect!(host = 'localhost', port = 3000, username = nil, password = nil)
             begin
-              ::JMX::MBean.establish_connection :host => host, :port => port
+              ::JMX::MBean.establish_connection :host => host, :port => port, :username => username, :pasword => password
             rescue => err
               return false
             end
