@@ -61,28 +61,32 @@ Usage: librato-metrics-tap-jmxbeans <options>
 Options:
 EOS
   # JMX End point
-  opt :jmx_host, "JMX Hostname", :default => "localhost"
-  opt :jmx_port, "JMX Port", :default => 8080
+  opt :jmx_host, "JMX Hostname", :short => "-j", :default => "localhost"
+  opt :jmx_port, "JMX Port", :short => "-m", :default => 8080
+  opt :jmx_username, "JMX Username", :short => "-x", :type => :string
+  opt :jmx_password, "JMX Password", :short => "-w", :type => :string
 
-  opt :email, "Metrics Email address", :type => :string
-  opt :token, "Metrics API token", :type => :string
-  opt :source, "Optional source name", :type => :string
-  opt :prefix, "Optional prefix name", :type => :string
-  opt :measure_time, "Optional time for measurements", :type => :int
-  opt :metrics_url, "Metrics URL", :default => 'https://metrics-api.librato.com'
+  opt :email, "Metrics Email address", :short => "-e", :type => :string
+  opt :token, "Metrics API token", :short => "-t", :type => :string
+  opt :source, "Optional source name", :short => "-s", :type => :string
+  opt :prefix, "Optional prefix name", :short => "-z", :type => :string
 
-  opt :interval, "Run as a daemon and poll every N seconds", :type => :int
+  opt :measure_time, "Optional time for measurements", :short => "-a", :type => :int
+  opt :metrics_url, "Metrics URL", :short => "-r", :default => 'https://metrics-api.librato.com'
 
-  opt :ignore_missing, "Ignore missing beans/attributes"
+  opt :interval, "Run as a daemon and poll every N seconds", :short => "-i", :type => :int
+
+  opt :ignore_missing, "Ignore missing beans/attributes", :short => "-g"
 
   # Bean collection options
-  opt :data_file_full, "YAML file defining beans & attribute names", :type => :string
-  opt :data_file_attributes, "YAML file of bean attributes", :type => :string
-  opt :bean_name, "Bean name to match against or lookup", :type => :string
+  opt :data_file_full, "YAML file defining beans & attribute names", :short => "-d", :type => :string
+  opt :data_file_attributes, "YAML file of bean attributes", :short => "-f", :type => :string
+  opt :bean_name, "Bean name to match against or lookup", :short => "-b", :type => :string
 
   # Commands
-  opt :publish, "Publish Bean Attributes to Librato Metrics"
-  opt :match_beans, "Output beans that match --bean-name regexp"
+  opt :publish, "Publish Bean Attributes to Librato Metrics", :short => "-p"
+  opt :match_beans, "Output beans that match --bean-name regexp", :short => "-c"
+
 end
 
 if opts[:publish] && opts[:match_beans]
@@ -112,7 +116,7 @@ end
 # Publishing. Read beans + attributes then push to Metrics
 #
 
-ret = Taps::JMX::connect!(opts[:jmx_host], opts[:jmx_port])
+ret = Taps::JMX::connect!(opts[:jmx_host], opts[:jmx_port], opts[:jmx_username], opts[:jmx_password])
 unless ret
   err "Failed to connect to JMX endpoint"
 end

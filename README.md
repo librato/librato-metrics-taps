@@ -17,9 +17,12 @@ Usage: librato-metrics-tap-jmxbeans <options>
 Options:
               --jmx-host, -j <s>:   JMX Hostname (default: localhost)
               --jmx-port, -m <i>:   JMX Port (default: 8080)
+          --jmx-username, -x <s>:   JMX Username
+          --jmx-password, -w <s>:   JMX Password
                  --email, -e <s>:   Metrics Email address
                  --token, -t <s>:   Metrics API token
                 --source, -s <s>:   Optional source name
+                --prefix, -z <s>:   Optional prefix name
           --measure-time, -a <i>:   Optional time for measurements
            --metrics-url, -r <s>:   Metrics URL (default:
                                     https://metrics-api.librato.com)
