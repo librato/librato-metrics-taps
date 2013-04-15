@@ -10,6 +10,10 @@ module Librato
           @user = nil
           @passwd = nil
 
+          def sanitize_metric_name(metric_name)
+            metric_name.gsub(/([^A-Za-z0-9.:\-_]|[\\[\\]]|\\s)/, "")
+          end
+
           def url=(new_url)
             if new_url =~ /^http/
               @url = new_url
@@ -65,14 +69,14 @@ module Librato
             if counters.length > 0
               params[:counters] = {}
               counters.each_pair do |k, v|
-                k = pfx + k
+                k = pfx + sanitize_metric_name(k)
                 params[:counters][k] = {:value => v}
               end
             end
             if gauges.length > 0
               params[:gauges] = {}
               gauges.each_pair do |k, v|
-                k = pfx + k
+                k = pfx + sanitize_metric_name(k)
                 if v.respond_to?(:keys)
                   params[:gauges][k] = v
                 else
