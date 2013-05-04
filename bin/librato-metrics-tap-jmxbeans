@@ -169,13 +169,36 @@ end
 # If --interval has been specified, broadcast every interval
 # seconds. We wait for interval seconds each time to ensure we
 # broadcast on the interval
+#
+# We use a random stagger to ensure that we are measuring and
+# publishing our metrics at a random point within the period. This
+# ensures that multiple entities are not measuring and reporting
+# at the same exact points in time.
+
+interval = opts[:interval]
+stagger = rand(interval)
 begin
   t = Time.now.tv_sec
-  t2 = ((t + opts[:interval] + 1) / opts[:interval]) * opts[:interval]
+
+  # Floor the time to the current interval
+  t2 = (t / interval) * interval
+
+  # Offset by the stagger
+  t2 += stagger
+
+  # If our stagger is < interval/2, it is possible that we
+  # went back in time. In that case, simply skip another interval
+  #
+  if t2 <= t
+    t2 += interval
+  end
 
   sleep (t2 - t)
   t = Time.now
-  tsecs = (Time.now.tv_sec / opts[:interval]) * opts[:interval]
+
+  # We report our measure time as the nearest interval
+  tsecs = ((t.tv_sec + (interval / 2)) / interval) * interval
+
   publish_beans(publisher, beans, opts.merge(:measure_time => tsecs))
 end while true
 
