@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.licenses = [%q{MIT}]
 
   s.add_runtime_dependency(%q<jmx4r>, ["= 0.1.4"])
-  s.add_runtime_dependency(%q<rest-client>, ["= 1.6.7"])
+  s.add_runtime_dependency(%q<librato-metrics>, ["~> 1.0.4"])
   s.add_runtime_dependency(%q<trollop>, ["= 1.16.2"])
   s.add_runtime_dependency(%q<jruby-openssl>, ["= 0.8.5"])
 
