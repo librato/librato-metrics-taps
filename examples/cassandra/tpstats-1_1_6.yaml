@@ -17,13 +17,18 @@ org.apache.cassandra.db:type=CompactionManager:
   PendingTasks:
 org.apache.cassandra.db:type=StorageService: 
   Load:
+  CompactionThroughputMbPerSec:
+  ExceptionCount:
+  StreamThroughputMbPerSec:
 org.apache.cassandra.db:type=StorageProxy:
+  HintsInProgress:
   RecentRangeLatencyMicros:
   RecentReadLatencyMicros:
   RecentWriteLatencyMicros:
   TotalRangeLatencyMicros: counter
   TotalReadLatencyMicros: counter
   TotalWriteLatencyMicros: counter
+  TotalHints: counter
   RangeOperations: counter
   ReadOperations: counter
   WriteOperations: counter
