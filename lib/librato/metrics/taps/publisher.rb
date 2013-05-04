@@ -23,6 +23,8 @@ module Librato
           @client = Librato::Metrics::Client.new
           @client.authenticate(opts[:email], opts[:token])
           @client.api_endpoint = opts[:metrics_url]
+          @client.agent_identifier("librato-metrics-tap-jmxbeans/%s" %
+                                   [Taps.version])
 
           qparams = {
             :autosubmit_count => DEFAULT_BATCH_SIZE
