@@ -3,7 +3,6 @@ module Librato
     module Taps
       class Publisher
         SOURCE_NAME_REGEX = /^[-A-Za-z0-9_.]{1,255}$/
-        DEFAULT_URL = 'https://metrics-stg.heroku.com'
 
         @url = nil
         @user = nil
