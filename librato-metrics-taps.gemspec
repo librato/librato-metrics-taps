@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{librato-metrics-taps}
-  s.version = "0.3.4"
+  s.version = File.read(File.join(File.dirname(__FILE__), 'VERSION')).chomp
 
   s.authors = [%q{Librato, Inc.}]
   s.date = %q{2012-05-15}
