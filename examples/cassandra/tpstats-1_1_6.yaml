@@ -96,19 +96,29 @@ org.apache.cassandra.request:type=MutationStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.request:type=ReadRepairStage: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.request:type=ReadStage: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.request:type=ReplicateOnWriteStage: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.request:type=RequestResponseStage: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
