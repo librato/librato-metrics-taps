@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors = [%q{Librato, Inc.}]
   s.date = %q{2012-05-15}
   s.description = %q{Taps for extracting metrics data and publishing to Librato Metrics}
-  s.email = %q{metrics@librato.com}
+  s.email = %q{mike@librato.com}
   s.summary = %q{Librato Metrics Taps}
 
   s.files = `git ls-files`.split("\n")
