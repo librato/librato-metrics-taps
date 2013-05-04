@@ -132,7 +132,7 @@ module Librato
           end
 
           def metric_name(bean_name, attr_name)
-            "#{bean_name.gsub('=', ':').gsub(',', '_')}::#{attr_name}"
+            "#{bean_name.gsub('=', ':').gsub(/[, ]/, '_')}::#{attr_name}"
           end
         end
       end
