@@ -1,0 +1,21 @@
+java.lang:type=ClassLoading:
+  LoadedClassCount:
+  TotalLoadedClassCount: counter
+  UnloadedClassCount:
+java.lang:type=GarbageCollector,name=ConcurrentMarkSweep:
+  CollectionCount: counter
+  CollectionTime: counter
+java.lang:type=GarbageCollector,name=ParNew:
+  CollectionCount: counter
+  CollectionTime: counter
+java.lang:type=Memory:
+  HeapMemoryUsage:
+  NonHeapMemoryUsage:
+java.lang:type=MemoryPool,name=CMS Old Gen:
+  CollectionUsage:
+  PeakUsage:
+  Usage:
+java.lang:type=MemoryPool,name=CMS Perm Gen:
+  CollectionUsage:
+  PeakUsage:
+  Usage:
