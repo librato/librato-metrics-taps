@@ -1,6 +1,32 @@
 # Set of non-CF specific Cassandra JMX knobs
 #
 --- 
+org.apache.cassandra.db:type=Caches:
+  KeyCacheCapacityInBytes:
+  KeyCacheEntries:
+  KeyCacheHits: counter
+  KeyCacheRecentHitRate:
+  KeyCacheRequests: counter
+  KeyCacheSize:
+org.apache.cassandra.db:type=Commitlog: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.db:type=CompactionManager: 
+  CompletedTasks: counter
+  PendingTasks:
+org.apache.cassandra.db:type=StorageService: 
+  Load:
+org.apache.cassandra.db:type=StorageProxy:
+  RecentRangeLatencyMicros:
+  RecentReadLatencyMicros:
+  RecentWriteLatencyMicros:
+  TotalRangeLatencyMicros: counter
+  TotalReadLatencyMicros: counter
+  TotalWriteLatencyMicros: counter
+  RangeOperations: counter
+  ReadOperations: counter
+  WriteOperations: counter
 org.apache.cassandra.internal:type=AntiEntropyStage: 
   ActiveCount:
   CompletedTasks: counter
@@ -37,25 +63,6 @@ org.apache.cassandra.internal:type=StreamStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
-org.apache.cassandra.db:type=Commitlog: 
-  ActiveCount:
-  CompletedTasks: counter
-  PendingTasks:
-org.apache.cassandra.db:type=CompactionManager: 
-  CompletedTasks: counter
-  PendingTasks:
-org.apache.cassandra.db:type=StorageService: 
-  Load:
-org.apache.cassandra.db:type=StorageProxy:
-  RecentRangeLatencyMicros:
-  RecentReadLatencyMicros:
-  RecentWriteLatencyMicros:
-  TotalRangeLatencyMicros: counter
-  TotalReadLatencyMicros: counter
-  TotalWriteLatencyMicros: counter
-  RangeOperations: counter
-  ReadOperations: counter
-  WriteOperations: counter
 org.apache.cassandra.request:type=MutationStage: 
   ActiveCount:
   CompletedTasks: counter
