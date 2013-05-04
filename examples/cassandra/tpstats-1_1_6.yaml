@@ -15,6 +15,8 @@ org.apache.cassandra.db:type=Commitlog:
 org.apache.cassandra.db:type=CompactionManager: 
   CompletedTasks: counter
   PendingTasks:
+  TotalBytesCompacted: counter
+  TotalCompactionsCompleted: counter
 org.apache.cassandra.db:type=StorageService: 
   Load:
   CompactionThroughputMbPerSec:
@@ -122,3 +124,14 @@ org.apache.cassandra.request:type=RequestResponseStage:
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
+org.apache.cassandra.net:type=MessagingService:
+  RecentTotalTimouts:
+  TotalTimeouts: counter
+org.apache.cassandra.metrics:type=ClientRequestMetrics,name=ReadTimeouts:
+  Count: counter
+org.apache.cassandra.metrics:type=ClientRequestMetrics,name=ReadUnavailables:
+  Count: counter
+org.apache.cassandra.metrics:type=ClientRequestMetrics,name=WriteTimeouts:
+  Count: counter
+org.apache.cassandra.metrics:type=ClientRequestMetrics,name=WriteUnavailables:
+  Count: counter
