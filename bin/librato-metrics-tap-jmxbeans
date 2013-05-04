@@ -32,18 +32,10 @@ def match_beans(opts)
   puts beans.join("\n")
 end
 
-def publish_beans(beans, opts)
+def publish_beans(publisher, beans, opts)
   (counters, gauges) = Taps::JMX::retrieve(beans, opts[:ignore_missing])
 
-  Taps::Publisher.url = opts[:metrics_url]
-  Taps::Publisher.user = opts[:email]
-  Taps::Publisher.passwd = opts[:token]
-
-  params = {}
-  params[:source] = opts[:source] if opts[:source]
-  params[:prefix] = opts[:prefix] if opts[:prefix]
-  params[:measure_time] = opts[:measure_time] if opts[:measure_time]
-  r = Taps::Publisher.post(counters, gauges, params)
+  r = publisher.post(counters, gauges, opts)
   unless r
     $stderr.puts "ERROR: Failed to publish metrics!"
   end
@@ -116,6 +108,8 @@ end
 # Publishing. Read beans + attributes then push to Metrics
 #
 
+publisher = Taps::Publisher.new(opts)
+
 ret = Taps::JMX::connect!(opts[:jmx_host], opts[:jmx_port], opts[:jmx_username], opts[:jmx_password])
 unless ret
   err "Failed to connect to JMX endpoint"
@@ -168,7 +162,7 @@ else
 end
 
 unless opts[:interval]
-  r = publish_beans(beans, opts)
+  r = publish_beans(publisher, beans, opts)
   exit(r ? 0 : 1)
 end
 
@@ -182,7 +176,7 @@ begin
   sleep (t2 - t)
   t = Time.now
   tsecs = (Time.now.tv_sec / opts[:interval]) * opts[:interval]
-  publish_beans(beans, opts.merge(:measure_time => tsecs))
+  publish_beans(publisher, beans, opts.merge(:measure_time => tsecs))
 end while true
 
 exit 1

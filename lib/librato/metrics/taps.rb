@@ -6,7 +6,7 @@ $LOAD_PATH.unshift __LIB_DIR__ unless
 
 require 'rubygems'
 require 'jmx4r'
-require 'rest_client'
+require 'librato/metrics'
 require 'trollop'
 
 module Librato
