@@ -36,38 +36,62 @@ org.apache.cassandra.internal:type=AntiEntropyStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.internal:type=FlushWriter: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.internal:type=GossipStage: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.internal:type=HintedHandoff: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.internal:type=InternalResponseStage: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.internal:type=MemtablePostFlusher: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.internal:type=MigrationStage: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.internal:type=MiscStage: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=PendingRangeCalculator: 
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.internal:type=StreamStage: 
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
 org.apache.cassandra.request:type=MutationStage: 
   ActiveCount:
   CompletedTasks: counter
