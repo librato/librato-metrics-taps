@@ -5,7 +5,7 @@ module Librato
         class << self
           def connect!(host = 'localhost', port = 3000, username = nil, password = nil)
             begin
-              ::JMX::MBean.establish_connection :host => host, :port => port, :username => username, :pasword => password
+              ::JMX::MBean.establish_connection :host => host, :port => port, :username => username, :password => password
             rescue => err
               return false
             end
