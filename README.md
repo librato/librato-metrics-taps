@@ -3,6 +3,10 @@
 Collection of helper scripts and library routines to tap into external
 metric sources and pump those metrics into Librato's Metric Service.
 
+With these you can monitor JVM services, like Cassandra, and build monitoring dashboards:
+
+![Cassandra Dashboard](https://s3.amazonaws.com/librato_images/Github/Selection_292.png)
+
 ## librato-metrics-tap-jmxbeans
 
 The *JMX Beans* tap script will connect to a JMX service and pull
