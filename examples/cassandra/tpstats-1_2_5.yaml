@@ -41,7 +41,7 @@ org.apache.cassandra.db:type=StorageProxy:
 org.apache.cassandra.db:type=StorageService: 
   Load:
   CompactionThroughputMbPerSec:
-  ExceptionCount: counter
+  ExceptionCount:
   StreamThroughputMbPerSec:
 org.apache.cassandra.internal:type=AntiEntropyStage: 
   ActiveCount:
