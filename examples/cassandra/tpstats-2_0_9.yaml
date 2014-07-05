@@ -123,37 +123,37 @@ org.apache.cassandra.internal:type=ValidationExecutor:
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.internal:type=StreamStage: 
+org.apache.cassandra.internal:type=StreamStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.request:type=MutationStage: 
+org.apache.cassandra.request:type=MutationStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.request:type=ReadRepairStage: 
+org.apache.cassandra.request:type=ReadRepairStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.request:type=ReadStage: 
+org.apache.cassandra.request:type=ReadStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.request:type=ReplicateOnWriteStage: 
+org.apache.cassandra.request:type=ReplicateOnWriteStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.request:type=RequestResponseStage: 
+org.apache.cassandra.request:type=RequestResponseStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
@@ -170,3 +170,18 @@ org.apache.cassandra.metrics:type=ClientRequestMetrics,name=WriteTimeouts:
   Count: counter
 org.apache.cassandra.metrics:type=ClientRequestMetrics,name=WriteUnavailables:
   Count: counter
+org.apache.cassandra.metrics:type=Client,name=connectedNativeClients:
+  Value:
+org.apache.cassandra.metrics:type=Client,name=connectedThriftClients:
+  Value:
+org.apache.cassandra.metrics:type=ClientRequest,scope=Read,name=Latency:
+  Mean:
+  95thPercentile:
+  99thPercentile:
+org.apache.cassandra.metrics:type=ClientRequest,scope=Write,name=Latency:
+  Mean:
+  95thPercentile:
+  99thPercentile:
+org.apache.cassandra.net:type=MessagingService:
+  RecentTotalTimouts:
+  TotalTimeouts: counter
