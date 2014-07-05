@@ -1,0 +1,187 @@
+# Set of non-CF specific Cassandra JMX knobs
+#
+--- 
+org.apache.cassandra.db:type=BatchlogManager:
+  TotalBatchesReplayed: counter
+org.apache.cassandra.db:type=Caches:
+  KeyCacheCapacityInBytes:
+  KeyCacheEntries:
+  KeyCacheHits: counter
+  KeyCacheRecentHitRate:
+  KeyCacheRequests: counter
+  KeyCacheSize:
+  RowCacheCapacityInBytes:
+  RowCacheEntries:
+  RowCacheHits: counter
+  RowCacheRecentHitRate:
+  RowCacheRequests:
+  RowCacheSize:
+org.apache.cassandra.db:type=Commitlog: 
+  CompletedTasks: counter
+  PendingTasks:
+  TotalCommitlogSize:
+org.apache.cassandra.db:type=CompactionManager: 
+  CompletedTasks: counter
+  PendingTasks:
+  TotalBytesCompacted: counter
+  TotalCompactionsCompleted: counter
+org.apache.cassandra.db:type=StorageProxy:
+  HintsInProgress:
+  RecentRangeLatencyMicros:
+  RecentReadLatencyMicros:
+  RecentWriteLatencyMicros:
+  TotalRangeLatencyMicros: counter
+  TotalReadLatencyMicros: counter
+  TotalWriteLatencyMicros: counter
+  TotalHints: counter
+  RangeOperations: counter
+  ReadOperations: counter
+  WriteOperations: counter
+  ReadRepairAttempted:
+  ReadRepairRepairedBackground:
+  ReadRepairRepairedBlocking:
+org.apache.cassandra.db:type=StorageService:
+  Load:
+  CompactionThroughputMbPerSec:
+  ExceptionCount:
+  StreamThroughputMbPerSec:
+org.apache.cassandra.internal:type=AntiEntropyStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=CacheCleanupExecutor:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=CompactionExecutor:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=FlushWriter:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=GossipStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=HintedHandoff:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=InternalResponseStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=MemoryMeter:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=MemtablePostFlusher:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=MigrationStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=MiscStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=PendingRangeCalculator:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=ValidationExecutor:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=StreamStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.request:type=MutationStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.request:type=ReadRepairStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.request:type=ReadStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.request:type=ReplicateOnWriteStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.request:type=RequestResponseStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.net:type=MessagingService:
+  RecentTotalTimouts:
+  TotalTimeouts: counter
+org.apache.cassandra.metrics:type=ClientRequestMetrics,name=ReadTimeouts:
+  Count: counter
+org.apache.cassandra.metrics:type=ClientRequestMetrics,name=ReadUnavailables:
+  Count: counter
+org.apache.cassandra.metrics:type=ClientRequestMetrics,name=WriteTimeouts:
+  Count: counter
+org.apache.cassandra.metrics:type=ClientRequestMetrics,name=WriteUnavailables:
+  Count: counter
+org.apache.cassandra.metrics:type=Client,name=connectedNativeClients:
+  Value:
+org.apache.cassandra.metrics:type=Client,name=connectedThriftClients:
+  Value:
+org.apache.cassandra.metrics:type=ClientRequest,scope=Read,name=Latency:
+  Mean:
+  95thPercentile:
+  99thPercentile:
+org.apache.cassandra.metrics:type=ClientRequest,scope=Write,name=Latency:
+  Mean:
+  95thPercentile:
+  99thPercentile:
+org.apache.cassandra.net:type=MessagingService:
+  RecentTotalTimouts:
+  TotalTimeouts: counter
