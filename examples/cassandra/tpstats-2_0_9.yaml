@@ -40,60 +40,84 @@ org.apache.cassandra.db:type=StorageProxy:
   ReadRepairAttempted:
   ReadRepairRepairedBackground:
   ReadRepairRepairedBlocking:
-org.apache.cassandra.db:type=StorageService: 
+org.apache.cassandra.db:type=StorageService:
   Load:
   CompactionThroughputMbPerSec:
   ExceptionCount:
   StreamThroughputMbPerSec:
-org.apache.cassandra.internal:type=AntiEntropyStage: 
+org.apache.cassandra.internal:type=AntiEntropyStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.internal:type=FlushWriter: 
+org.apache.cassandra.internal:type=CacheCleanupExecutor:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.internal:type=GossipStage: 
+org.apache.cassandra.internal:type=CompactionExecutor:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.internal:type=HintedHandoff: 
+org.apache.cassandra.internal:type=FlushWriter:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.internal:type=InternalResponseStage: 
+org.apache.cassandra.internal:type=GossipStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.internal:type=MemtablePostFlusher: 
+org.apache.cassandra.internal:type=HintedHandoff:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.internal:type=MigrationStage: 
+org.apache.cassandra.internal:type=InternalResponseStage:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.internal:type=MiscStage: 
+org.apache.cassandra.internal:type=MemoryMeter:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
   CurrentlyBlockedTasks:
   TotalBlockedTasks: counter
-org.apache.cassandra.internal:type=PendingRangeCalculator: 
+org.apache.cassandra.internal:type=MemtablePostFlusher:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=MigrationStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=MiscStage:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=PendingRangeCalculator:
+  ActiveCount:
+  CompletedTasks: counter
+  PendingTasks:
+  CurrentlyBlockedTasks:
+  TotalBlockedTasks: counter
+org.apache.cassandra.internal:type=ValidationExecutor:
   ActiveCount:
   CompletedTasks: counter
   PendingTasks:
