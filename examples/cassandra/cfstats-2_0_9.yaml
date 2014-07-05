@@ -1,0 +1,31 @@
+# Set of attributes to grab for each CF.
+# TODO: Add comment description for each
+#
+---
+BloomFilterDiskSpaceUsed: counter
+BloomFilterFalsePositives: counter
+BloomFilterFalseRatio:
+CompressionRatio:
+DroppableTombstoneRatio:
+LiveCellsPerSlice:
+LiveDiskSpaceUsed:
+LiveSSTableCount:
+MaxRowSize:
+MeanRowSize:
+MinRowSize:
+MaximumCompactionThreshold:
+MinimumCompactionThreshold:
+MemtableColumnsCount: counter
+MemtableDataSize:
+MemtableSwitchCount: counter
+PendingTasks:
+ReadCount: counter
+RecentBloomFilterFalsePositives:
+RecentBloomFilterFalseRatio:
+RecentReadLatencyMicros:
+RecentWriteLatencyMicros:
+TotalDiskSpaceUsed: counter
+TotalReadLatencyMicros: counter
+TotalWriteLatencyMicros: counter
+UnleveledSSTables:
+WriteCount: counter
