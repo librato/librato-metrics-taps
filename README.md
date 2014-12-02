@@ -1,5 +1,15 @@
 # librato-metrics-taps
 
+## Deprecation Notice
+
+**This project is being officially deprecated by the maintainers.**
+
+We recommend alternatives such as [JMXTrans](https://github.com/jmxtrans/embedded-jmxtrans) and collectd's [JMX plugin](https://collectd.org/wiki/index.php/Plugin:GenericJMX) projects for submitting your JMX metrics to Librato. These have more comprehensive coverage, require fewer external dependencies, and are more actively developed than this project.
+
+We will keep this project available on GitHub for now, but there will be no ongoing support or development of the project from this point forward.
+
+## Overview
+
 Collection of helper scripts and library routines to tap into external
 metric sources and pump those metrics into Librato's Metric Service.
 
