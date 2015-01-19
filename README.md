@@ -142,6 +142,26 @@ librato-metrics-tap-jmxbeans --email "$EMAIL" --token "$TOKEN" \
     --measure-time "$MEASURE_TIME"
 ```
 
+### Daemon Mode
+
+#### Single Interval
+
+In order to poll and publish to librato every N seconds, specify `--interval <poll-interval>` option.
+
+#### Multiple Intervals
+
+In order to publish multiple YAML bean definition files in different intervals,
+you must supply an interval file, specifying a map from YAML data files to the
+period each file's metrics must be collected and published to librato. For example:
+
+```
+metrics_1min.yaml: 60
+metrics_5min.yaml: 300
+metrics_1h.yaml: 3600
+```
+
+The interval file must be specified using the `--interval-file <interval-file-path>` option.
+
 ## Contributing to librato-metrics-taps
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
