@@ -42,6 +42,63 @@ def publish_beans(publisher, beans, opts)
   return r
 end
 
+def load_yaml(filename)
+  begin
+    yaml_file= File.open(filename, "r")
+  rescue => err
+    puts "Failed to open yaml file #{filename}: #{err.message}"
+    exit 1
+  end
+
+  begin
+    yaml = YAML::load(yaml_file)
+  rescue => err
+    puts "Failed to parse yaml #{filename}: #{err.message}"
+    exit 1
+  end
+  yaml_file.close
+  return yaml
+end
+
+def publish_loop(opts, publisher, interval, beans)
+  # If --interval or --interval-file has been specified,
+  # broadcast every interval seconds. We wait for
+  # interval seconds each time to ensure we broadcast
+  # on the interval
+  #
+  # We use a random stagger to ensure that we are measuring and
+  # publishing our metrics at a random point within the period. This
+  # ensures that multiple entities are not measuring and reporting
+  # at the same exact points in time.
+
+  stagger = rand(interval)
+  begin
+    t = Time.now.tv_sec
+
+    # Floor the time to the current interval
+    t2 = (t / interval) * interval
+
+    # Offset by the stagger
+    t2 += stagger
+
+    # If our stagger is < interval/2, it is possible that we
+    # went back in time. In that case, simply skip another interval
+    #
+    if t2 <= t
+      t2 += interval
+    end
+
+    sleep (t2 - t)
+    t = Time.now
+
+    # We report our measure time as the nearest interval
+    tsecs = ((t.tv_sec + (interval / 2)) / interval) * interval
+
+    publish_beans(publisher, beans, opts.merge(:measure_time => tsecs))
+  end while true
+end
+
+
 opts = Trollop::options do
   version "Version: #{Taps::version}"
   banner <<EOS
@@ -67,6 +124,7 @@ EOS
   opt :metrics_url, "Metrics URL", :short => "-r", :default => 'https://metrics-api.librato.com'
 
   opt :interval, "Run as a daemon and poll every N seconds", :short => "-i", :type => :int
+  opt :interval_file, "YAML file specifying different intervals for multiple data files (daemon mode)", :type => :string
 
   opt :ignore_missing, "Ignore missing beans/attributes", :short => "-g"
 
@@ -118,89 +176,42 @@ end
 # Load full definition
 #
 if opts[:data_file_full]
-  filename = opts[:data_file_full]
-  begin
-    beanf = File.open(filename, "r")
-  rescue => err
-    puts "Failed to open bean file #{filename}: #{err.message}"
-    exit 1
-  end
-
-  begin
-    beans = YAML::load(beanf)
-  rescue => err
-    puts "Failed to parse #{filename}: #{err.message}"
-    exit 1
-  end
-  beanf.close
+  beans = load_yaml(opts[:data_file_full])
 elsif opts[:bean_name] && opts[:data_file_attributes]
-  # Load attributes from file
-  #
-  filename = opts[:data_file_attributes]
-  begin
-    beanf = File.open(filename, "r")
-  rescue => err
-    puts "Failed to open attributes file #{filename}: #{err.message}"
-    exit 1
-  end
-
-  begin
-    attrs = YAML::load(beanf)
-  rescue => err
-    puts "Failed to parse #{filename}: #{err.message}"
-    exit 1
-  end
-  beanf.close
+  attrs = load_yaml(opts[:data_file_attributes])
 
   beans = {}
   beannames = get_beans(opts[:bean_name])
   beannames.each do |name|
     beans[name] = attrs
   end
+elsif opts[:interval_file]
+  intervals = load_yaml(opts[:interval_file])
 else
-  err "Must specify --data-file-full or --data-file-attributes"
+  err "Must specify --data-file-full or --data-file-attributes or --interval-file"
 end
 
-unless opts[:interval]
+unless opts[:interval] or opts[:interval_file]
   r = publish_beans(publisher, beans, opts)
   exit(r ? 0 : 1)
 end
 
-# If --interval has been specified, broadcast every interval
-# seconds. We wait for interval seconds each time to ensure we
-# broadcast on the interval
-#
-# We use a random stagger to ensure that we are measuring and
-# publishing our metrics at a random point within the period. This
-# ensures that multiple entities are not measuring and reporting
-# at the same exact points in time.
-
-interval = opts[:interval]
-stagger = rand(interval)
-begin
-  t = Time.now.tv_sec
-
-  # Floor the time to the current interval
-  t2 = (t / interval) * interval
-
-  # Offset by the stagger
-  t2 += stagger
-
-  # If our stagger is < interval/2, it is possible that we
-  # went back in time. In that case, simply skip another interval
-  #
-  if t2 <= t
-    t2 += interval
+if opts[:interval]
+  #single interval, single datafile
+  interval = opts[:interval]
+  publish_loop(opts, publisher, interval, beans)
+elsif opts[:interval_file]
+  #multiple intervals, multiple datafiles
+  base_dir = File.dirname(opts[:interval_file])
+  workers = []
+  intervals.each do |data_file, interval|
+    data_file_path = "#{base_dir}/#{data_file}"
+    p "Starting publisher for data file #{data_file_path} with #{interval}s interval."
+    jmx_beans = load_yaml(data_file_path)
+    workers << Thread.new{publish_loop(opts, publisher, interval.to_i, jmx_beans)}
   end
-
-  sleep (t2 - t)
-  t = Time.now
-
-  # We report our measure time as the nearest interval
-  tsecs = ((t.tv_sec + (interval / 2)) / interval) * interval
-
-  publish_beans(publisher, beans, opts.merge(:measure_time => tsecs))
-end while true
+  workers.map(&:join)
+end
 
 exit 1
 
