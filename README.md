@@ -160,7 +160,7 @@ metrics_5min.yaml: 300
 metrics_1h.yaml: 3600
 ```
 
-The interval file must be specified using the `--interval-file <interval-file-path>` option.
+The interval file must be specified using the `--interval-file <interval-file-path>` option. A sample interval file is contained in the examples folder.
 
 ## Contributing to librato-metrics-taps
  
