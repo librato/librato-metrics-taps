@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    librato-metrics-taps (0.3.7)
+    librato-metrics-taps (0.3.8)
       jmx4r (= 0.1.4)
       jruby-openssl (= 0.8.5)
       librato-metrics (~> 1.0.4)
