@@ -1,0 +1,3 @@
+cassandra/cfstats-2_0_9.yaml: 300 #5 minutes resolution
+cassandra/tpstats-2_0_9.yaml: 120 #2 minutes resolution
+java-lang.yaml: 60 #1 minute resolution
