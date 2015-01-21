@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version = File.read(File.join(File.dirname(__FILE__), 'VERSION')).chomp
 
   s.authors = [%q{Librato, Inc.}]
-  s.date = %q{2012-05-15}
+  s.date = Time.now
   s.description = %q{Taps for extracting metrics data and publishing to Librato Metrics}
   s.email = %q{mike@librato.com}
   s.summary = %q{Librato Metrics Taps}
